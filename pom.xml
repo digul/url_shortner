@@ -10,12 +10,12 @@
 	</parent>
 	
 	<groupId>digul.apps</groupId>
-	<artifactId>url_shortner</artifactId>
+	<artifactId>url_shortener</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
-	<name>url_shortner</name>
-	<description>url shortner</description>
+	<name>url_shortener</name>
+	<description>url shortener</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -29,16 +29,32 @@
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 
-		<!-- spring boot web -->
-      	<dependency>
-        	<groupId>org.springframework.boot</groupId>
-        	<artifactId>spring-boot-starter-web</artifactId>
-      	</dependency>
+		<!-- imbeded tomcat -->
 		<dependency>
 		  	<groupId>org.springframework.boot</groupId>
 		  	<artifactId>spring-boot-starter-tomcat</artifactId>
 		</dependency>
+		
+		<!-- spring boot web without logback -->
+      	<dependency>
+        	<groupId>org.springframework.boot</groupId>
+        	<artifactId>spring-boot-starter-web</artifactId>
+        	<exclusions>
+		        <exclusion>
+		            <groupId>org.springframework.boot</groupId>
+		            <artifactId>spring-boot-starter-logging</artifactId>
+		        </exclusion>
+		    </exclusions>
+      	</dependency>
+		
+		<!-- log4j -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j2</artifactId>
+		</dependency>
+      	
       
+		<!-- test case -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
