@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import cf.digul.shortener.vo.Url;
+
 
 @RestController
 public class MainController {
@@ -15,7 +17,12 @@ public class MainController {
 	public String welcome() {
 		logger.debug("log4j log test : debug");
 		logger.info("log4j log test : info");
-		logger.error("log4j log test : error");
+		logger.warn("log4j log test : warn");
 		return "Welcome"; 
+	}
+	
+	@RequestMapping(value = "/url", method = RequestMethod.GET)
+	public Url sampleUrl () {
+		return new Url("sample_Url.com");
 	}
 }

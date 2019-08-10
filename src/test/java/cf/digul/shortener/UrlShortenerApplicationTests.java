@@ -1,5 +1,6 @@
 package cf.digul.shortener;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 import org.junit.Assert;
@@ -29,6 +30,13 @@ public class UrlShortenerApplicationTests {
 		ResponseEntity<String> response = template.getForEntity(createURL("/"), String.class);
 		
 		Assert.assertThat(response.getBody(), equalTo("Welcome"));
+	}
+	
+	@Test
+	public void sampleUrl() throws Exception {
+		ResponseEntity<String> response = template.getForEntity(createURL("/url"), String.class);
+
+		Assert.assertThat(response.getBody(), containsString("sample_Url.com"));
 	}
 	
 	private String createURL(String uri) {

@@ -2,6 +2,7 @@ package cf.digul.shortener.controller;
 
 import org.springframework.http.MediaType;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Test;
@@ -27,5 +28,12 @@ public class MainControllerTest {
 		mvc.perform(MockMvcRequestBuilders.get("/").accept(MediaType.APPLICATION_JSON))
 		.andExpect(status().isOk())
 		.andExpect(MockMvcResultMatchers.content().string("Welcome"));
+	}
+	
+	@Test
+	public void sampleUrl() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/url").accept(MediaType.APPLICATION_JSON))
+		.andExpect(status().isOk())
+		.andExpect(MockMvcResultMatchers.content().string(containsString("sample_Url.com")));
 	}
 }

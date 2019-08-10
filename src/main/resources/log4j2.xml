@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN" monitorInterval="30">
+<Configuration status="WARN">
     <Properties>
         <Property name="LOG_FORMAT">%d{yyyy-MM-dd HH:mm:ss} %p %m%n</Property>
         <Property name="BASE_DIR">/deploy/logs</Property>
@@ -25,7 +25,11 @@
     </Appenders>
     
     <Loggers>
-        <Root level="info">
+        <Logger name="cf.digul.shortener" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Logger>
+        <Root level="error">
             <AppenderRef ref="Console" />
             <AppenderRef ref="File" />
         </Root>
