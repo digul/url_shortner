@@ -32,8 +32,9 @@ public class MainControllerTest {
 	
 	@Test
 	public void sampleUrl() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/url").accept(MediaType.APPLICATION_JSON))
+		String testUrl = "google.com";
+		mvc.perform(MockMvcRequestBuilders.get("/url/" + testUrl).accept(MediaType.APPLICATION_JSON))
 		.andExpect(status().isOk())
-		.andExpect(MockMvcResultMatchers.content().string(containsString("sample_Url.com")));
+		.andExpect(MockMvcResultMatchers.content().string(containsString(testUrl)));
 	}
 }

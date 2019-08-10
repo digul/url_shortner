@@ -34,9 +34,10 @@ public class UrlShortenerApplicationTests {
 	
 	@Test
 	public void sampleUrl() throws Exception {
-		ResponseEntity<String> response = template.getForEntity(createURL("/url"), String.class);
+		String testUrl = "google.com";
+		ResponseEntity<String> response = template.getForEntity(createURL("/url/" + testUrl), String.class);
 
-		Assert.assertThat(response.getBody(), containsString("sample_Url.com"));
+		Assert.assertThat(response.getBody(), containsString(testUrl));
 	}
 	
 	private String createURL(String uri) {

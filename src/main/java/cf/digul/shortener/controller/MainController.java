@@ -2,6 +2,7 @@ package cf.digul.shortener.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,8 +22,8 @@ public class MainController {
 		return "Welcome"; 
 	}
 	
-	@RequestMapping(value = "/url", method = RequestMethod.GET)
-	public Url sampleUrl () {
-		return new Url("sample_Url.com");
+	@RequestMapping(value = "/url/{url}", method = RequestMethod.GET)
+	public Url sampleUrl (@PathVariable String url) {
+		return new Url(url);
 	}
 }
