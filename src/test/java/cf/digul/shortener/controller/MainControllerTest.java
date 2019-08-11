@@ -14,6 +14,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -26,6 +27,7 @@ import cf.digul.shortener.controller.MainController;
 import cf.digul.shortener.service.UrlShortenerService;
 import cf.digul.shortener.vo.Url;
 
+@ActiveProfiles("default")
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(MainController.class)
 public class MainControllerTest {
