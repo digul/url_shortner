@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import cf.digul.shortener.UrlShortenerApplication;
 import cf.digul.shortener.vo.Url;
 
-@ActiveProfiles("test")
+@ActiveProfiles("default")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = UrlShortenerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UrlShortenerApplicationTests {

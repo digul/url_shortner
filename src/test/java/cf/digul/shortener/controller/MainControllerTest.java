@@ -27,7 +27,7 @@ import cf.digul.shortener.controller.MainController;
 import cf.digul.shortener.service.UrlShortenerService;
 import cf.digul.shortener.vo.Url;
 
-@ActiveProfiles("default")
+@ActiveProfiles("dev")
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(MainController.class)
 public class MainControllerTest {

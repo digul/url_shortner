@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.*;
 
 import cf.digul.shortener.vo.Url;
 
-@ActiveProfiles("default")
+@ActiveProfiles("dev")
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class UrlShortenerServiceTest {
 	
