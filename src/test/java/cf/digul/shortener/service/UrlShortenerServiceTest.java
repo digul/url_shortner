@@ -6,7 +6,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -14,7 +13,6 @@ import static org.hamcrest.Matchers.*;
 
 import cf.digul.shortener.vo.Url;
 
-@ActiveProfiles("dev")
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class UrlShortenerServiceTest {
 	
