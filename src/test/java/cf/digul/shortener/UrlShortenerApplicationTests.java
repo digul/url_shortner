@@ -1,20 +1,25 @@
 package cf.digul.shortener;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
-import org.junit.Assert;
+import java.net.URI;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cf.digul.shortener.UrlShortenerApplication;
+import cf.digul.shortener.vo.Url;
 
-@RunWith(SpringRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = UrlShortenerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UrlShortenerApplicationTests {
 
@@ -24,20 +29,33 @@ public class UrlShortenerApplicationTests {
 	private int port;
 	
 	private TestRestTemplate template = new TestRestTemplate();
+	private ObjectMapper mapper = new ObjectMapper();
 	
 	@Test
 	public void welcome() throws Exception {
 		ResponseEntity<String> response = template.getForEntity(createURL("/"), String.class);
 		
-		Assert.assertThat(response.getBody(), equalTo("Welcome"));
+		assertThat(response.getBody(), equalTo("Welcome"));
 	}
 	
 	@Test
-	public void sampleUrl() throws Exception {
-		String testUrl = "google.com";
-		ResponseEntity<String> response = template.getForEntity(createURL("/url/" + testUrl), String.class);
+	public void getRealUrl() throws Exception {
+		Url sampleUrl = new Url("test.real.url", "aAbBcCdD");
+		
+		ResponseEntity<String> response = template.getForEntity(createURL("/" + sampleUrl.getShortUrl()), String.class);
 
-		Assert.assertThat(response.getBody(), containsString(testUrl));
+		JSONAssert.assertEquals(mapper.writeValueAsString(sampleUrl)
+				, response.getBody(), false);
+	}
+	
+	@Test
+	public void generateShortUrl() throws Exception {
+		Url sampleUrl = new Url("test.real.url", "aAbBcCdD");
+		
+		URI location = template.postForLocation(createURL("/gen"), sampleUrl.getRealUrl());
+		
+		assertThat(location.getPath(), containsString("/gen/aAbBcCdD"));
+		
 	}
 	
 	private String createURL(String uri) {
