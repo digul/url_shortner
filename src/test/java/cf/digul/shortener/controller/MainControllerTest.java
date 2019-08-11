@@ -68,7 +68,7 @@ public class MainControllerTest {
 		
 		when(service.generateShortUrl(anyString())).thenReturn(sampleUrl);
 		
-		mvc.perform(MockMvcRequestBuilders.get("/gen")
+		mvc.perform(MockMvcRequestBuilders.post("/gen")
 				.content(sampleUrl.getRealUrl())
 				.contentType(contentType))
 				.andExpect(status().isCreated())

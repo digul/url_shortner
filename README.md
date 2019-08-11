@@ -22,7 +22,7 @@ Shortening Service
 ### STRATEGY
 * 세팅중
 * TDD : controller / service / repository TestCase 작성, 빌드배포 시 자동수행
-* jar packging 후 cloud에 빌드배포(jenkins, bash script)
+* jar packging 후 cloud에 빌드배포([jenkins](http://jenkins.digul.cf), bash script)
 * 무중단배포 (두 개의 서비스를 띄워 nginx 로드밸런싱 설정)
 
 ### 실행환경
