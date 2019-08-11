@@ -10,11 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cf.digul.shortener.service.UrlShortenerService;
 import cf.digul.shortener.vo.Url;
@@ -23,7 +20,6 @@ import cf.digul.shortener.vo.Url;
 @RestController
 public class MainController {
 	private static final Logger logger = LogManager.getLogger(MainController.class);
-	private ObjectMapper mapper = new ObjectMapper();
 	
 	@Autowired
 	private UrlShortenerService urlShortenerService;
