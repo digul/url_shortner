@@ -7,11 +7,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import cf.digul.shortener.vo.Url;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 import static org.hamcrest.Matchers.*;
-
-import cf.digul.shortener.vo.Url;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class UrlShortenerServiceTest {
