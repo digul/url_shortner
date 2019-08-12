@@ -3,11 +3,15 @@ package cf.digul.shortener.controller;
 import org.springframework.http.MediaType;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.mockito.AdditionalMatchers.not;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.nio.charset.Charset;
 
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -23,8 +27,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import cf.digul.shortener.controller.MainController;
-import cf.digul.shortener.service.UrlShortenerService;
 import cf.digul.shortener.vo.Url;
+import cf.digul.shortener.service.UrlShortenerService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(MainController.class)
@@ -42,37 +46,63 @@ public class MainControllerTest {
             Charset.forName("utf8"));
 
 	private ObjectMapper mapper = new ObjectMapper();
+
+	private final String sampleRealUrl = "test.real.url";
+	private final String sampleShortUrl = "aAbBcCdD";
+	private Url sampleUrl = new Url(sampleRealUrl, sampleShortUrl);
+	
+	@Before
+	public void setMockBean() {
+		sampleUrl.setIsNew(false);
+		when(service.findUrl(eq(sampleShortUrl))).thenReturn(sampleUrl);	// 탐색성공
+		when(service.findUrl(not(eq(sampleShortUrl)))).thenReturn(null);	// 탐색실패
+		when(service.saveUrl(eq(sampleRealUrl))).thenReturn(sampleUrl);	// 이미 생성된 url을 저장시도
+		when(service.saveUrl(not(eq(sampleRealUrl)))).thenReturn(new Url("something.new.url","NewUrl"));	// 새로운 url저장
+	}
 	
 	@Test
-	public void main() throws Exception {
+	public void testMain() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/").accept(contentType))
 		.andExpect(status().isOk())
 		.andExpect(MockMvcResultMatchers.content().string("Welcome"));
 	}
 
 	@Test
-	public void getRealUrl() throws Exception {
-		Url sampleUrl = new Url("test.real.url", "aAbBcCdD");
-		when(service.findUrl(anyString())).thenReturn(sampleUrl);
+	public void testGetRealUrl() throws Exception {
 		
-		MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/aAbBcCdD").accept(contentType))
+		MvcResult result = mvc.perform(MockMvcRequestBuilders.get("/" + sampleShortUrl)
+				.accept(contentType))
 				.andExpect(status().isOk()).andReturn();
 		
 		JSONAssert.assertEquals(mapper.writeValueAsString(sampleUrl)
 				, result.getResponse().getContentAsString(), false);
+		
 	}
 	
 	@Test
-	public void generateShortUrl() throws Exception {
-		Url sampleUrl = new Url("test.real.url","aAbBcCdD");
-		
-		when(service.generateShortUrl(anyString())).thenReturn(sampleUrl);
-		
+	@Ignore("구현 후 테스트")
+	public void testGetRealUrlUndefined() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.get("/UndefUrl").accept(contentType))
+		.andExpect(status().isNotFound());
+	}
+	
+	@Test
+	public void testGenerateShortUrl() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.post("/gen")
-				.content(sampleUrl.getRealUrl())
+				.content("something.new.url")
 				.contentType(contentType))
 				.andExpect(status().isCreated())
-				.andExpect(header().string("location", containsString("/gen/aAbBcCdD")));
+				.andExpect(header().string("location", containsString("/gen/")))
+				.andExpect(jsonPath("shortUrl").exists());
+	}
+	
+	@Test
+	public void testGenerateShortUrlAlreadyGen() throws Exception {
+		mvc.perform(MockMvcRequestBuilders.post("/gen")
+				.content(sampleRealUrl)
+				.contentType(contentType))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("shortUrl").value(sampleShortUrl));
 	}
 	
 }

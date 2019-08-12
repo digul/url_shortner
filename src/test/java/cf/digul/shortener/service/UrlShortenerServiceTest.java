@@ -1,6 +1,6 @@
 package cf.digul.shortener.service;
 
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -8,10 +8,12 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import cf.digul.shortener.vo.Url;
+import cf.digul.shortener.repository.UrlRepository;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
-import static org.hamcrest.Matchers.*;
+import static org.mockito.AdditionalMatchers.*;
+import org.hamcrest.Matchers;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class UrlShortenerServiceTest {
@@ -20,49 +22,48 @@ public class UrlShortenerServiceTest {
 	private UrlShortenerService service;
 	
 	@Mock
-	private Url mockUrl;
+	private UrlRepository urlRepository;
 
+	private String sampleRealUrl = "test.real.url";
+	private String sampleShortUrl = "aAbBcCdD";
+	
+	@Before
+	public void setMockRepository() {
+		// sample로 테스트하면 탐색성공, 다른 url로는 탐색실패
+		Url samplesUrl = new Url(sampleRealUrl, sampleShortUrl);
+		when(urlRepository.findOneByRealUrl(eq(sampleRealUrl))).thenReturn(samplesUrl);
+		when(urlRepository.findAndCountByShortUrl(eq(sampleShortUrl))).thenReturn(samplesUrl);
+		when(urlRepository.findOneByRealUrl(not(eq(sampleRealUrl)))).thenReturn(null);
+		when(urlRepository.findAndCountByShortUrl(not(eq(sampleShortUrl)))).thenReturn(null);
+		
+		when(urlRepository.save(any())).thenReturn(new Url("something.new.url","NewUrl"));
+	}
 
 	@Test
 	public void testFindUrl() {
-		when(mockUrl.getShortUrl()).thenReturn("aAbBcCdD");
-		when(mockUrl.getRealUrl()).thenReturn("test.real.url");
-		
-		Url url = service.findUrl(mockUrl.getShortUrl());
-		assertEquals(url.getRealUrl(), mockUrl.getRealUrl());
-		assertEquals(url.getShortUrl(), mockUrl.getShortUrl());
+		assertNotNull(service.findUrl(sampleShortUrl));
 	}
 	
 	@Test
-	@Ignore("실패응답 구현 후 테스트")
-	public void testFindUrlFail() {
-		when(mockUrl.getShortUrl()).thenReturn(anyString());
-		
-		Url url = service.findUrl(mockUrl.getShortUrl());
-		//TODO 실패응답리턴
+	public void testFindUrlUndefined() {
+		assertNull(service.findUrl("Undef"));
 	}
 	
 	@Test
-	public void testGenerateShortUrl() {
-		when(mockUrl.getShortUrl()).thenReturn("aAbBcCdD");
-		when(mockUrl.getRealUrl()).thenReturn("test.real.url");
+	public void testSaveUrl() {
+		String sampleNewRealUrl = "test.new.real.url";
 		
-		Url url = service.generateShortUrl(mockUrl.getRealUrl());
-
-		assertEquals(url.getRealUrl(), mockUrl.getRealUrl());
-		assertThat(url.getShortUrl().length(), lessThanOrEqualTo(8));
-		// 8자 이하여야 함
-
-		Url url2 = service.generateShortUrl(mockUrl.getRealUrl());
-		assertEquals(url.getShortUrl(), url2.getShortUrl());
-		// 같은 real url이 같은 short url을 리턴해야 함
+		Url result = service.saveUrl(sampleNewRealUrl);
+		assertNotNull(result);
+		assertThat(result.getShortUrl().length(), Matchers.lessThanOrEqualTo(8));	// 8자 이하여야 함
+		assertTrue(result.isNew());	// 신규생성됨
 	}
 	
 	@Test
-	@Ignore("injection 방지 로직 구현 후 테스트")
-	public void testGenerateShortUrlByWrongString() {
-		when(mockUrl.getRealUrl()).thenReturn("or 1=1");
-		//TODO 오류응답 리턴
+	public void testSaveUrlAlreadyGen() {
+		Url result = service.saveUrl(sampleRealUrl);
+		assertNotNull(result);
+		assertFalse(result.isNew());	// 이미 생성된 url
+		
 	}
-	
 }
