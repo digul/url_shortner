@@ -10,12 +10,8 @@ import cf.digul.shortener.repository.UrlRepository;
 @Service
 public class UrlShortenerService {
 	
-	private UrlRepository urlRepository;
-	
 	@Autowired
-	public UrlShortenerService(UrlRepository urlRepository) {
-		this.urlRepository = urlRepository;
-	}
+	private UrlRepository urlRepository;
 	
 	/**
 	 * URL 매핑정보 저장

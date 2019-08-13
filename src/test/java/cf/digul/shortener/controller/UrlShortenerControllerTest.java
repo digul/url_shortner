@@ -26,13 +26,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import cf.digul.shortener.controller.MainController;
+import cf.digul.shortener.controller.UrlShorenerController;
 import cf.digul.shortener.vo.Url;
 import cf.digul.shortener.service.UrlShortenerService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebMvcTest(MainController.class)
-public class MainControllerTest {
+@WebMvcTest(UrlShorenerController.class)
+public class UrlShortenerControllerTest {
 	
 	@Autowired
 	private MockMvc mvc;

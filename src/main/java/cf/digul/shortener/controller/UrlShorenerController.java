@@ -18,8 +18,8 @@ import cf.digul.shortener.service.UrlShortenerService;
 
 
 @RestController
-public class MainController {
-	private static final Logger logger = LogManager.getLogger(MainController.class);
+public class UrlShorenerController {
+	private static final Logger logger = LogManager.getLogger(UrlShorenerController.class);
 	
 	@Autowired
 	private UrlShortenerService urlShortenerService;

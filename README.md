@@ -20,12 +20,15 @@ Shortening Service
 
 
 ### STRATEGY
-* 세팅중
-* TDD : controller / service / repository TestCase 작성, 빌드배포 시 자동수행
-* jar packging 후 cloud에 빌드배포([jenkins](http://jenkins.digul.cf), bash script)
+* http://hostname/ : short url 생성을 위한 화면 제공
+* 유효한 url string(200 return)만 생성 가능
+* 생성 성공 시 201 code로 short url return
+* 중복 생성 시도 시 200 code로 기 생성된 short url return
+* http://hostname/SHORTURL : 입력된 shorturl에 해당하는 화면으로 redirect (없는경우 404 return)
+* 2시간단위로 변경사항 확인하여 jar packging 후 cloud에 빌드/배포/통합테스트 자동수행([jenkins](http://jenkins.digul.cf), bash script)
 * 무중단배포 (두 개의 서비스를 띄워 nginx 로드밸런싱 설정)
 
-### 실행환경
+### ENVIRONMENT
 * [http://digul.cf/](http://digul.cf/)
 * NCP cloud 
 * CentOS 7.3 64bit
