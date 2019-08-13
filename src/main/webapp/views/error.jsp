@@ -2,17 +2,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>URL SHORTENER</title>
+	<title>ERROR</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="/css/style.css" type="test/css" rel="stylesheet" />
+	<link href="/css/style.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-	<h3>INPUT YOUR URL</h3>
-	<div id="main">
-		{{ realUrl }} : {{ shortUrl }}
+	<div id="error">
+		<div class="inner code">{{ code }}</div>
+		<div class="inner"><img alt="error image" src="/images/error.png"></div>
+		<div class="inner">{{ message }}</div>
 	</div>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" ></script>
-	<script type="text/javascript" src="/js/main.js" ></script>
+	<script type="text/javascript" src="/js/error.js" ></script>
 </body>
 </html>

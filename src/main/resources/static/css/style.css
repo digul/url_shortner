@@ -1,0 +1,18 @@
+/* default : pc */
+div.inner {
+	margin: 10px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 150%;
+}
+div.inner.code {
+	font-size: 400%;
+}
+
+/* mobile size */ 
+@media (max-width:425px) {
+	div.inner img {
+		width: 80%;
+		height: auto;
+	}
+}

@@ -19,7 +19,7 @@ import com.mongodb.MongoClient;
 @PropertySources({
 	@PropertySource(value = "file:/deploy/shortener/mongoConfig.properties")
 })
-@Profile(value = {"!default"})
+@Profile(value = {"test", "service", "service2"})
 public class MongoConfig extends AbstractMongoConfiguration {
 	@Value("${spring.data.mongodb.username}")
 	private String userName;

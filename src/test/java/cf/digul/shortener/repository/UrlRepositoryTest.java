@@ -1,4 +1,4 @@
-package cf.digul.shortener.domain;
+package cf.digul.shortener.repository;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;

@@ -95,8 +95,13 @@
 		    <scope>test</scope>
 		</dependency>
 		
+		<!-- 로컬개발환경설정용(static resource reload) -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-devtools</artifactId>
+		</dependency>
+		
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
