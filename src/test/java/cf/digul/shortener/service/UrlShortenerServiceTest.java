@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.annotation.IfProfileValue;
 
 import cf.digul.shortener.vo.Url;
 import cf.digul.shortener.repository.UrlRepository;
@@ -17,7 +17,7 @@ import static org.mockito.AdditionalMatchers.*;
 import org.hamcrest.Matchers;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
-@ActiveProfiles("!test")
+@IfProfileValue(name = "unit-test", value = "true")
 public class UrlShortenerServiceTest {
 	
 	@InjectMocks
