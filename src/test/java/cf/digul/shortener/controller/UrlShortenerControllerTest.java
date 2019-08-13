@@ -58,7 +58,7 @@ public class UrlShortenerControllerTest {
 	public void testMain() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/").accept(contentType))
 		.andExpect(status().isOk())
-		.andExpect(forwardedUrl("/views/main.jsp"));
+		.andExpect(forwardedUrl("/WEB-INF/jsp/main.jsp"));
 	}
 
 	@Test
