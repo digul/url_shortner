@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>DIGUL.CF : URL SHORTENER</title>
+<title>URL SHORTENER</title>
 </head>
 <body>
 <h3>INPUT YOUR URL</h3>

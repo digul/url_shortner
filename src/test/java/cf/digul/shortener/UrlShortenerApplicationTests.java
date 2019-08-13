@@ -1,6 +1,5 @@
 package cf.digul.shortener;
 
-import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
 import org.hamcrest.Matchers;
@@ -52,14 +51,13 @@ public class UrlShortenerApplicationTests {
 	@Test
 	public void welcome() throws Exception {
 		ResponseEntity<String> response = template.getForEntity(createURL("/"), String.class);
-		
-		assertThat(response.getBody(), equalTo("Welcome"));
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 
 	@Test
 	public void testGetRealUrlUndefined() throws Exception {
 		ResponseEntity<Url> response = template.getForEntity(createURL("/UndefUrl"), Url.class);
-		assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 	}
 	
 	@Test
@@ -67,7 +65,7 @@ public class UrlShortenerApplicationTests {
 		for(String invalidString : invalidStrings) {
 			ResponseEntity<Url> invalidRes 
 				= template.getForEntity(createURL("/" + invalidString), Url.class);
-			assertEquals(invalidRes.getStatusCode(), HttpStatus.FORBIDDEN);	
+			assertEquals(HttpStatus.FORBIDDEN, invalidRes.getStatusCode());	
 		}
 	}
 	
@@ -76,14 +74,14 @@ public class UrlShortenerApplicationTests {
 		ResponseEntity<Url> generatedResponse 
 			= template.postForEntity(createURL("/"), SAMPLE_URL, Url.class);
 		
-		assertEquals(generatedResponse.getStatusCode(), HttpStatus.CREATED);
+		assertEquals(HttpStatus.CREATED, generatedResponse.getStatusCode());
 		assertTrue(generatedResponse.hasBody());
 		
 		Url generatedEntity = generatedResponse.getBody();
 		assertThat(generatedEntity.getShortUrl().length(), Matchers.lessThanOrEqualTo(8));	// 8자이하
 		
 		ResponseEntity<Url> foundResponse = template.getForEntity(createURL("/" + generatedEntity.getShortUrl()), Url.class);
-		assertEquals(foundResponse.getStatusCode(), HttpStatus.OK);
+		assertEquals(HttpStatus.OK, foundResponse.getStatusCode());
 		assertTrue(foundResponse.hasBody());
 		assertEquals(foundResponse.getBody().getRealUrl(), SAMPLE_URL);	// 생성된 shortUrl을 호출하면 최초의 realUrl이 리턴됨
 	}
@@ -98,7 +96,7 @@ public class UrlShortenerApplicationTests {
 		// 같은 url로 두번 생성시도
 		
 		assertTrue(secondResponse.hasBody());
-		assertEquals(secondResponse.getStatusCode(), HttpStatus.OK);	
+		assertEquals(HttpStatus.OK, secondResponse.getStatusCode());	
 		assertNotNull(secondResponse.getBody().getShortUrl());		// 응답은 한다
 		assertFalse(secondResponse.getBody().isNew());				// is not new로 응답.
 		
@@ -108,12 +106,12 @@ public class UrlShortenerApplicationTests {
 	public void testGenerateInvalidUrl() {
 		ResponseEntity<Url> response 
 			= template.postForEntity(createURL("/"), "invalid.real.url", Url.class);
-		assertEquals(response.getStatusCode(), HttpStatus.FORBIDDEN);
+		assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
 		
 		for(String invalidString : invalidStrings) {
 			ResponseEntity<Url> invalidRes 
 				= template.postForEntity(createURL("/"), invalidString, Url.class);
-			assertEquals(invalidRes.getStatusCode(), HttpStatus.FORBIDDEN);	
+			assertEquals(HttpStatus.FORBIDDEN, invalidRes.getStatusCode());	
 		}
 	}
 	
