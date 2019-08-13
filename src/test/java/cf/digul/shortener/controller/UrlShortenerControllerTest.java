@@ -66,7 +66,7 @@ public class UrlShortenerControllerTest {
 	public void testMain() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/").accept(contentType))
 		.andExpect(status().isOk())
-		.andExpect(MockMvcResultMatchers.content().string("Welcome"));
+		.andExpect(MockMvcResultMatchers.content().string("main"));
 	}
 
 	@Test
@@ -90,17 +90,16 @@ public class UrlShortenerControllerTest {
 	
 	@Test
 	public void testGenerateShortUrl() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.post("/gen")
+		mvc.perform(MockMvcRequestBuilders.post("/")
 				.content("something.new.url")
 				.contentType(contentType))
 				.andExpect(status().isCreated())
-				.andExpect(header().string("location", containsString("/gen/")))
 				.andExpect(jsonPath("shortUrl").exists());
 	}
 	
 	@Test
 	public void testGenerateShortUrlAlreadyGen() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.post("/gen")
+		mvc.perform(MockMvcRequestBuilders.post("/")
 				.content(sampleRealUrl)
 				.contentType(contentType))
 				.andExpect(status().isOk())

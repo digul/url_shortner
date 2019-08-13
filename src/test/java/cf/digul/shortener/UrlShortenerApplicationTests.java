@@ -74,7 +74,7 @@ public class UrlShortenerApplicationTests {
 	@Test
 	public void testGenerateAndGetUrl() throws Exception {
 		ResponseEntity<Url> generatedResponse 
-			= template.postForEntity(createURL("/gen"), SAMPLE_URL, Url.class);
+			= template.postForEntity(createURL("/"), SAMPLE_URL, Url.class);
 		
 		assertEquals(generatedResponse.getStatusCode(), HttpStatus.CREATED);
 		assertTrue(generatedResponse.hasBody());
@@ -91,10 +91,10 @@ public class UrlShortenerApplicationTests {
 
 	@Test
 	public void testGenerateDuplicate() throws Exception {
-		template.postForEntity(createURL("/gen"), SAMPLE_URL, Url.class);
+		template.postForEntity(createURL("/"), SAMPLE_URL, Url.class);
 		
 		ResponseEntity<Url> secondResponse 
-			= template.postForEntity(createURL("/gen"), SAMPLE_URL, Url.class);
+			= template.postForEntity(createURL("/"), SAMPLE_URL, Url.class);
 		// 같은 url로 두번 생성시도
 		
 		assertTrue(secondResponse.hasBody());
@@ -107,12 +107,12 @@ public class UrlShortenerApplicationTests {
 	@Test
 	public void testGenerateInvalidUrl() {
 		ResponseEntity<Url> response 
-			= template.postForEntity(createURL("/gen"), "invalid.real.url", Url.class);
+			= template.postForEntity(createURL("/"), "invalid.real.url", Url.class);
 		assertEquals(response.getStatusCode(), HttpStatus.FORBIDDEN);
 		
 		for(String invalidString : invalidStrings) {
 			ResponseEntity<Url> invalidRes 
-				= template.postForEntity(createURL("/gen"), invalidString, Url.class);
+				= template.postForEntity(createURL("/"), invalidString, Url.class);
 			assertEquals(invalidRes.getStatusCode(), HttpStatus.FORBIDDEN);	
 		}
 	}
