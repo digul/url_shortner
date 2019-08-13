@@ -1,5 +1,5 @@
 HELP.md
-src/main/resources/mongoConfig.properties
+mongoConfig.properties
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
