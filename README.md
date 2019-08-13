@@ -33,4 +33,6 @@ Shortening Service
 * NCP cloud 
 * CentOS 7.3 64bit
 * nginx 1.16 
+* 단위테스트 실행 시 -Dunit-test=true 옵션 필요
+
 
