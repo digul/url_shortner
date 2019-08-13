@@ -17,10 +17,11 @@ import com.mongodb.MongoClient;
 
 @Configuration
 @PropertySources({
-	@PropertySource(value = "file:/deploy/shortener/mongoConfig.properties")
+	@PropertySource(value = "file:D:/workspace/url_shortner/src/main/resources/mongoConfig.properties"),
 })
-@Profile(value = {"!default"})
-public class MongoConfig extends AbstractMongoConfiguration {
+@Profile(value = {"default"})
+public class MongoConfigLocal extends AbstractMongoConfiguration {
+
 	@Value("${spring.data.mongodb.username}")
 	private String userName;
 	@Value("${spring.data.mongodb.password}")
