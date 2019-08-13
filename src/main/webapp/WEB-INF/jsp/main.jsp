@@ -12,7 +12,7 @@
 	<div id="main">
 		{{ realUrl }} : {{ shortUrl }}
 	</div>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" ></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js" ></script>
 	<script type="text/javascript" src="/js/main.js" ></script>
 </body>
 </html>

@@ -17,6 +17,7 @@ Shortening Service
 * java 1.8
 * spring boot 2.1.4.RELEASE
 * mongodb 4.0
+* Vue.js 2.6
 
 
 ### STRATEGY
