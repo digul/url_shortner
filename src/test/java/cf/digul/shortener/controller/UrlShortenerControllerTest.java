@@ -3,9 +3,12 @@ package cf.digul.shortener.controller;
 import org.springframework.http.MediaType;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.AdditionalMatchers.not;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.nio.charset.Charset;
@@ -21,12 +24,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import cf.digul.shortener.controller.UrlShorenerController;
+import cf.digul.shortener.controller.UrlShortenerController;
 import cf.digul.shortener.vo.Url;
 import cf.digul.shortener.service.UrlShortenerService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebMvcTest(UrlShorenerController.class)
+@WebMvcTest(UrlShortenerController.class)
 @IfProfileValue(name = "unit-test", value = "true")
 public class UrlShortenerControllerTest {
 	
@@ -91,6 +94,5 @@ public class UrlShortenerControllerTest {
 				.contentType(contentType))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("shortUrl").value(sampleShortUrl));	// 이미 생성된 short url
-	}
-	
+	}	
 }

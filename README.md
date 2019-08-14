@@ -21,7 +21,7 @@ Shortening Service
 
 
 ### STRATEGY
-* http://hostname/ : short url 생성을 위한 화면 제공
+* http://hostname/ : short url 생성을 위한 화면 제공 - 간단한 media query 적용
 * 유효한 url string(200 return)만 생성 가능
 * 생성 성공 시 201 code로 short url return
 * 중복 생성 시도 시 200 code로 기 생성된 short url return

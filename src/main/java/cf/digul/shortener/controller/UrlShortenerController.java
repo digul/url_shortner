@@ -24,8 +24,8 @@ import cf.digul.shortener.service.UrlShortenerService;
 
 @Controller
 @RequestMapping(value = "/")
-public class UrlShorenerController {
-	private static final Logger logger = LogManager.getLogger(UrlShorenerController.class);
+public class UrlShortenerController {
+	private static final Logger logger = LogManager.getLogger(UrlShortenerController.class);
 	
 	@Autowired
 	private UrlShortenerService urlShortenerService;
@@ -73,14 +73,5 @@ public class UrlShorenerController {
 		}
 		logger.debug("##Controller.getRealUrl## REDIRECT -> " + url.getRealUrl());
 		response.sendRedirect(url.getRealUrl());
-	}
-	
-	@RequestMapping(value = "/error", method = RequestMethod.GET)
-	public String notFoundPage(Model model) {
-		logger.debug("##Controller## redirect to error page");
-		//TODO 에러코드, 메시지 받아서 화면에 전송
-		model.addAttribute("code", "404");
-		model.addAttribute("message", "NOT FOUND");
-		return "error";
 	}
 }
