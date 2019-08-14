@@ -1,5 +1,7 @@
 package cf.digul.shortener.vo;
 
+import java.sql.Date;
+
 import javax.validation.constraints.Size;
 
 import org.springframework.data.annotation.Id;
@@ -27,6 +29,12 @@ public class Url {
 	
 	@Transient
 	private boolean isNew;
+	
+	@Transient
+	private Date createdTime;	//TODO mongodb 포맷에 맞는 date format 검색해서 생성시점 저장
+	
+	@Transient
+	private String createdIp;	//TODO 요청 ip 찾아내어 생성자 매핑
 	
 
 	public Url(String realUrl, String shortUrl) {

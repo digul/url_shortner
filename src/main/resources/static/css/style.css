@@ -1,17 +1,17 @@
 /* default : pc */
-div.inner {
+div.error.inner {
 	margin: 10px;
 	text-align: center;
 	font-weight: bold;
 	font-size: 150%;
 }
-div.inner.code {
+div.error.inner.code {
 	font-size: 400%;
 }
 
 /* mobile size */ 
 @media (max-width:425px) {
-	div.inner img {
+	div.error.inner img {
 		width: 80%;
 		height: auto;
 	}
