@@ -31,7 +31,7 @@ public class UrlShortenerErrorController implements ErrorController{
         String errMessage;
         
         if( statusCode == null) {
-        	throw new DefinedException("FAKE ERROR HAS CALLED.");
+        	throw new DefinedException("FAKE ERROR HAS CALLED");
         }
         
         String errorCode = statusCode.toString();

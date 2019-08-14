@@ -36,8 +36,7 @@ public class Url {
 		this.isNew = true;
 	}
 	public Url() {
-		this.callCnt = 0;
-		this.isNew = true;
+		
 	}
 	
 	

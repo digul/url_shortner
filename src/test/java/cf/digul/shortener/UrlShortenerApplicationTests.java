@@ -1,19 +1,13 @@
 package cf.digul.shortener;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
@@ -21,11 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cf.digul.shortener.UrlShortenerApplication;
-import cf.digul.shortener.controller.UrlShortenerController;
 import cf.digul.shortener.repository.UrlRepository;
 import cf.digul.shortener.vo.Url;
 
-@Ignore("jenkins test 일시적 회피")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = UrlShortenerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UrlShortenerApplicationTests {
@@ -37,15 +29,6 @@ public class UrlShortenerApplicationTests {
 	private int port;
 	
 	private TestRestTemplate template = new TestRestTemplate();
-
-	private String[] invalidStrings = {
-			"or 1 = 1 --",
-			"'having 1=1",
-			"javascript:",
-			"<script>",
-			"eval("
-			};
-
 
 	@Autowired
 	public UrlRepository repository;	// 데이터클리어용
@@ -62,17 +45,8 @@ public class UrlShortenerApplicationTests {
 
 	@Test
 	public void testGetRealUrlUndefined() throws Exception {
-		ResponseEntity<Url> response = template.getForEntity(createURL("/UndefUrl"), Url.class);
+		ResponseEntity<String> response = template.getForEntity(createURL("/UndefUrl"), String.class);
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
-	}
-	
-	@Test
-	public void testGetRealUrlInvalid() throws Exception {
-		for(String invalidString : invalidStrings) {
-			ResponseEntity<Url> invalidRes 
-				= template.getForEntity(createURL("/" + invalidString), Url.class);
-			assertEquals(HttpStatus.FORBIDDEN, invalidRes.getStatusCode());	
-		}
 	}
 	
 	@Test
@@ -86,10 +60,9 @@ public class UrlShortenerApplicationTests {
 		Url generatedEntity = generatedResponse.getBody();
 		assertThat(generatedEntity.getShortUrl().length(), Matchers.lessThanOrEqualTo(8));	// 8자이하
 		
-		ResponseEntity<Url> foundResponse = template.getForEntity(createURL("/" + generatedEntity.getShortUrl()), Url.class);
-		assertEquals(HttpStatus.OK, foundResponse.getStatusCode());
-		assertTrue(foundResponse.hasBody());
-		assertEquals(foundResponse.getBody().getRealUrl(), SAMPLE_URL);	// 생성된 shortUrl을 호출하면 최초의 realUrl이 리턴됨
+		ResponseEntity<String> foundResponse = template.getForEntity(createURL("/" + generatedEntity.getShortUrl()), String.class);
+		assertEquals(HttpStatus.FOUND, foundResponse.getStatusCode());	// 생성된 shortUrl을 호출하면 최초의 realUrl로 리다이렉트됨
+		assertEquals(SAMPLE_URL, foundResponse.getHeaders().getLocation().toString());
 	}
 
 
@@ -101,27 +74,31 @@ public class UrlShortenerApplicationTests {
 			= template.postForEntity(createURL("/"), SAMPLE_URL, Url.class);
 		// 같은 url로 두번 생성시도
 		
+		assertEquals(HttpStatus.OK, secondResponse.getStatusCode());	// 응답은 한다
 		assertTrue(secondResponse.hasBody());
-		assertEquals(HttpStatus.OK, secondResponse.getStatusCode());	
-		assertNotNull(secondResponse.getBody().getShortUrl());		// 응답은 한다
-		assertFalse(secondResponse.getBody().isNew());				// is not new로 응답.
-		
+		assertNotNull(secondResponse.getBody().getShortUrl());	
+		assertFalse(secondResponse.getBody().isNew());					// is not new로 응답.
 	}
+	
 	
 	@Test
 	public void testGenerateInvalidUrl() {
-		ResponseEntity<Url> response 
-			= template.postForEntity(createURL("/"), "invalid.real.url", Url.class);
-		assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
-		
+		// 유효하지 않은 url로는 short url을 만들 수 없다.
+		String[] invalidStrings = {
+				"http://invalid.real.url",
+				"<script>",
+				"eval(",
+				"SOME STRING"
+			};
+
 		for(String invalidString : invalidStrings) {
 			ResponseEntity<Url> invalidRes 
 				= template.postForEntity(createURL("/"), invalidString, Url.class);
-			assertEquals(HttpStatus.FORBIDDEN, invalidRes.getStatusCode());	
+			assertEquals(HttpStatus.METHOD_NOT_ALLOWED, invalidRes.getStatusCode());	
 		}
 	}
 	
 	private String createURL(String uri) {
 		return LOCAL_HOST + port + uri;
-	}
+	}	
 }

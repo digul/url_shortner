@@ -23,7 +23,7 @@ public class UrlShortenerService {
 		if(searchedUrl != null) {
 			searchedUrl.setIsNew(false);
 			return searchedUrl;
-		}
+		} 
 		
 		String shortUrl;
 		do {
@@ -42,7 +42,7 @@ public class UrlShortenerService {
 	 */
 	private String generateShortUrl(String realUrl) {
 		//TODO short url 만드는 로직 구현
-		return "aAbBcCdD";
+		return "GenURL2";
 	}
 	
 	/**
