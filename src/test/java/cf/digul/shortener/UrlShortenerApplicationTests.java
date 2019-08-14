@@ -54,6 +54,7 @@ public class UrlShortenerApplicationTests {
 		ResponseEntity<Url> generatedResponse 
 			= template.postForEntity(createURL("/"), SAMPLE_URL, Url.class);
 		
+		// 201 created 응답
 		assertEquals(HttpStatus.CREATED, generatedResponse.getStatusCode());
 		assertTrue(generatedResponse.hasBody());
 		
@@ -68,15 +69,15 @@ public class UrlShortenerApplicationTests {
 
 	@Test
 	public void testGenerateDuplicate() throws Exception {
-		template.postForEntity(createURL("/"), SAMPLE_URL, Url.class);
+		ResponseEntity<Url> firstResponse 
+			= template.postForEntity(createURL("/"), SAMPLE_URL, Url.class);
 		
 		ResponseEntity<Url> secondResponse 
 			= template.postForEntity(createURL("/"), SAMPLE_URL, Url.class);
 		// 같은 url로 두번 생성시도
 		
-		assertEquals(HttpStatus.OK, secondResponse.getStatusCode());	// 응답은 한다
-		assertTrue(secondResponse.hasBody());
-		assertNotNull(secondResponse.getBody().getShortUrl());	
+		assertEquals(HttpStatus.OK, secondResponse.getStatusCode());	// 200 ok,  동일한 short url 응답
+		assertEquals(firstResponse.getBody().getShortUrl(), secondResponse.getBody().getShortUrl());	
 		assertFalse(secondResponse.getBody().isNew());					// is not new로 응답.
 	}
 	
