@@ -24,9 +24,6 @@
 		<div class="btn">
 			<button v-show="afterGen" @click="copy()" >COPY</button>
 		</div>
-		<div class="btn">
-			<button v-show="afterGen" @click="go($event, url.shortUrl)">GO</button>
-		</div>
 		<div class="status">
 			<span v-text="status"/>
 		</div>
@@ -34,7 +31,6 @@
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js" ></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<script type="text/javascript" src="/js/common.js" ></script>
 	<script type="text/javascript" src="/js/main.js?ver=ss" ></script>
 </body>
 </html>

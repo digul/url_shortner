@@ -22,7 +22,7 @@ var app = new Vue({
 			.then(function(response){
 				app.url = response.data;
 				app.afterGen = true;
-				if(app.url.isNew) {
+				if(response.status == 201) {
 					app.status = '생성되었습니다.';
 				} else {
 					app.status = '기존에 생성된 url입니다.';
@@ -53,9 +53,6 @@ var app = new Vue({
 			} catch (err) {
 				app.status = 'Unable to copy now';
 			}
-		},
-		go: function(event, shortUrl) {
-			app.status = shortUrl + ' : go button clicked.';
 		}
 	},
 })

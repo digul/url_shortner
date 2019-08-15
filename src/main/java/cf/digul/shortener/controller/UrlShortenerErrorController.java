@@ -9,10 +9,12 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cf.digul.shortener.vo.DefinedException;
+import cf.digul.shortener.vo.StatusMessage;
 
 @Controller
 public class UrlShortenerErrorController implements ErrorController{
@@ -26,7 +28,7 @@ public class UrlShortenerErrorController implements ErrorController{
 	}
 	
 	@RequestMapping(value = ERROR_PATH, method = RequestMethod.GET)
-	public String errorPage(HttpServletRequest request, Model model) throws DefinedException {
+	public String errorPage(HttpServletRequest request, @ModelAttribute("error") StatusMessage status) throws DefinedException {
         Object statusCode = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         String errMessage;
         
@@ -48,8 +50,8 @@ public class UrlShortenerErrorController implements ErrorController{
         }
 		logger.debug(String.format("##ErrorController## %s Error : %s", errorCode, errMessage));
 		
-        model.addAttribute("code", errorCode);
-        model.addAttribute("message", errMessage);
+		status.setCode(errorCode);
+		status.setMessage(errMessage);
         
 		return "error";
 	}
