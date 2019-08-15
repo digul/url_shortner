@@ -20,7 +20,12 @@ Shortening Service
 * Vue.js 2.6
 
 
-### STRATEGY
+### GENERATING ALGORITHM
+* mongodb에 저장된 object id (hex) 를 문자열로 변환
+* 변환된 문자열 -> byte array -> int형으로 변환
+* base62로 변환
+
+### SERVICE STRATEGY
 * http://hostname/ : short url 생성을 위한 화면 제공 - 간단한 media query 적용
 * 유효한 url string(200 return)만 생성 가능
 * 생성 성공 시 201 code로 short url return

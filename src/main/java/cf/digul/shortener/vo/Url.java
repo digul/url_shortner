@@ -40,10 +40,8 @@ public class Url {
 	public Url(String realUrl) {
 		this.realUrl = realUrl;
 		this.callCnt = 0;
-		this.isNew = true;
 	}
 	public Url() {
-		this.isNew = true;
 	}
 	
 	
