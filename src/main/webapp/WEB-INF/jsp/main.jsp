@@ -18,8 +18,8 @@
 		</div>
 		<div class="btn"><button @click="gen" >GEN</button></div>
 		<div class="result">
-			<label>SHORT URL : {{ host }}</label>
-			<input id="shortUrl"  type="text" :value="url.shortUrl"  readonly />
+			<label>SHORT URL : </label>
+			<input id="shortUrl"  type="text" :value="host + url.shortUrl"  readonly />
 		</div>
 		<div class="btn">
 			<button v-show="afterGen" @click="copy()" >COPY</button>
@@ -27,7 +27,6 @@
 		<div class="status">
 			<span v-text="status"/>
 		</div>
-		<input type="hidden" v-show="afterGen" id="genedUrl" :value="host + url.shortUrl" />
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js" ></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>

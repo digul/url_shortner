@@ -2,14 +2,11 @@ var app = new Vue({
 	el:'#main',
 	data: {
 		host: 'http://digul.cf/',
-		url: {},
+		url: {
+			shortUrl: ''
+		},
 		status: 'INPUT YOUR URL',
 		afterGen : false
-	},
-	computed: {
-		generatedFullUrl: function() {
-			return this.host + this.url.shortUrl;
-		}
 	},
 	methods: {
 		gen: function() {
@@ -27,8 +24,6 @@ var app = new Vue({
 				} else {
 					app.status = '기존에 생성된 url입니다.';
 				}
-				console.log(app.url);
-				
 			}).catch(function(e){
 				var errResponse = e.response;
 				if(errResponse.status == 405) {
@@ -37,10 +32,11 @@ var app = new Vue({
 					app.status = '알 수 없는 이유로 실패했습니다.';
 				}
 				app.afterGen = false;
+				app.url.shortUrl = '';
 			});
 		},
 		copy: function() {
-			let genedUrlEl = document.querySelector('#genedUrl');
+			let genedUrlEl = document.querySelector('#shortUrl');
 			genedUrlEl.select();
 
 			try {
@@ -50,6 +46,7 @@ var app = new Vue({
 				} else {
 					app.status = '복사실패.';
 				}
+			
 			} catch (err) {
 				app.status = 'Unable to copy now';
 			}
