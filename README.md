@@ -41,6 +41,7 @@ Shortening Service
 * CentOS 7.3 64bit
 * nginx 1.16 
 * mongodb 4.0
+* 야심차게 준비했는데 오늘 갑자기 서버가 죽어서 안뜸...ㅠㅠ 공짜서버에 너무많은것을 올린듯..
 
 ### LOCAL ENVIRONMENT
 * mvn clean package 로 war build 
@@ -48,5 +49,4 @@ Shortening Service
 * http://localhost:8080 
 * 단위테스트 실행 시 -Dunit-test=true 옵션 필요
 * 로컬환경 실행 시 embedded db로 실행됩니다.
-
 
