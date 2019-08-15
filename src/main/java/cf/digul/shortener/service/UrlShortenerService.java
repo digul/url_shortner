@@ -1,14 +1,19 @@
 package cf.digul.shortener.service;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import cf.digul.shortener.vo.Url;
 import cf.digul.shortener.repository.UrlRepository;
+import cf.digul.shortener.util.ShortUrlGenerator;
 
 @Service
 public class UrlShortenerService {
+	private static final Logger logger = LogManager.getLogger(UrlShortenerService.class);
 	
 	@Autowired
 	private UrlRepository urlRepository;
@@ -18,31 +23,26 @@ public class UrlShortenerService {
 	 * @param realUrl
 	 * @return Url which have generated shortUrl
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	public Url saveUrl(String realUrl) {
-		Url searchedUrl = urlRepository.findOneByRealUrl(realUrl);
-		if(searchedUrl != null) {
-			searchedUrl.setIsNew(false);
-			return searchedUrl;
-		} 
-		
-		String shortUrl;
-		do {
-			shortUrl = generateShortUrl(realUrl);
-		} while(urlRepository.findByShortUrl(shortUrl) == null); 
-		
-		Url newUrl = new Url(realUrl, shortUrl);
-		
-		return urlRepository.save(newUrl);
-	}
-
-	/**
-	 * short url generate
-	 * @param realUrl
-	 * @return
-	 */
-	private String generateShortUrl(String realUrl) {
-		//TODO short url 만드는 로직 구현
-		return "GenURL2";
+		try {
+			Url searchedUrl = urlRepository.findOneByRealUrl(realUrl);
+			if(searchedUrl != null) {
+				searchedUrl.setIsNew(false);
+				return searchedUrl;
+			} 
+			
+			Url savedUrl = urlRepository.save(new Url(realUrl));
+			savedUrl.setShortUrl(ShortUrlGenerator.encode(savedUrl.getId()));
+			
+			return urlRepository.save(savedUrl);
+			
+		} catch(Exception e) {
+			// mongodb는 transaction지원하지 않아서 직접 delete 호출함
+			logger.error("## UrlShortenerService ## saveUrl error. rollback..");
+			urlRepository.deleteByRealUrl(realUrl);
+			throw e;
+		}
 	}
 	
 	/**

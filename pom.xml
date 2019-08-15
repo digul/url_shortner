@@ -20,6 +20,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<common-io.version>2.5</common-io.version>
+		<powermock.version>2.0.0</powermock.version>
 	</properties>
 
 	<dependencies>
@@ -72,14 +73,6 @@
 		    <artifactId>log4j-web</artifactId>
 		</dependency>
       
-		<!-- test case -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		
-		
 		<!-- imbeded tomcat -->
 		<dependency>
 		  	<groupId>org.springframework.boot</groupId>
@@ -100,13 +93,31 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
 		</dependency>
-		<!-- embeded mongodb for test -->
+		<!-- embeded mongodb -->
 		<dependency>
 		    <groupId>de.flapdoodle.embed</groupId>
 		    <artifactId>de.flapdoodle.embed.mongo</artifactId>
-		    <scope>test</scope>
 		</dependency>
 		
+		<!-- test case -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.powermock</groupId>
+		    <artifactId>powermock-module-junit4</artifactId>
+		    <version>${powermock.version}</version>
+		    <scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.powermock</groupId>
+		    <artifactId>powermock-api-mockito2</artifactId>
+		    <version>${powermock.version}</version>
+		    <scope>test</scope>
+		</dependency>
+
 		<!-- 로컬개발환경설정용(static resource reload) -->
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>

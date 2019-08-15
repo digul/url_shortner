@@ -2,9 +2,13 @@ package cf.digul.shortener.repository;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.reflect.Whitebox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.annotation.IfProfileValue;
@@ -23,35 +27,61 @@ public class UrlRepositoryTest {
 	@Autowired
 	public UrlRepository repository;
 	
+	private static final String SAMPLE_REAL_URL = "sample.real.url.save";
+	private static final String SAMPLE_SHORT_URL = "RepoTest";
+	private static Url sampleUrl = new Url();
+	
+	@BeforeClass
+	public static void setTestData() {
+		sampleUrl.setRealUrl(SAMPLE_REAL_URL);
+		sampleUrl.setShortUrl(SAMPLE_SHORT_URL);
+		Whitebox.setInternalState(sampleUrl, "callCnt", 0);
+		Whitebox.setInternalState(sampleUrl, "id", "1234");
+	}
+	
+	@Before
+	public void clearTestData() {
+		repository.delete(sampleUrl);
+	}
+	
 	@Test
-	public void testSave() {	// Insert
-		assertNotNull(repository.save(new Url("sample.real.url.save", "AABBCCDD")));
-		assertNotNull(repository.save(new Url("sample2.real.url.save", "aabbccdd")));
+	public void testSaveAndDelete() {
+		Url savedUrl = repository.save(sampleUrl);
+		assertNotNull(savedUrl.getId());
+		
+		repository.deleteByRealUrl(SAMPLE_REAL_URL);
+		assertThat(repository.findById(savedUrl.getId())).isEmpty();
 	}
 
 	@Test(expected = DuplicateKeyException.class)
 	public void testSaveDuplicate() {
-		repository.save(new Url("sample.real.url.savedup", "abc"));
-		assertThat(repository.save(new Url("sample.real.url.savedup", "ABC")), is("realUrl중복"));
-		assertThat(repository.save(new Url("sample2.real.url.savedup", "abc")), is("shortUrl중복"));
+		repository.save(sampleUrl);
+
+		Url testUrl = new Url();
+		Whitebox.setInternalState(testUrl, "id", "4321");
+		Whitebox.setInternalState(testUrl, "callCnt", 0);
+		
+		testUrl.setRealUrl(SAMPLE_REAL_URL);
+		testUrl.setShortUrl("ANOTHER");
+		assertThat(repository.save(testUrl), is("realUrl중복"));
+
+		testUrl.setRealUrl("another.real.url");
+		testUrl.setShortUrl(SAMPLE_SHORT_URL);
+		assertThat(repository.save(testUrl), is("shortUrl중복"));
 		
 	}
 	@Test
-	public void testFindByRealUrl() {	
-		String sampleRealUrl1 = "sample.real.url.findbyreal";
-		String sampleRealUrl2 = "sample2.real.url.findbyreal";
-		String sampleShortUrl1 = "EEFFGGHH";
-		String sampleShortUrl2 = "eeffgghh";
-		repository.save(new Url(sampleRealUrl1, sampleShortUrl1));
-		repository.save(new Url(sampleRealUrl2, sampleShortUrl2));
+	public void testFindByRealUrl() {
+		repository.save(sampleUrl);
+		Url anotherUrl = new Url("another.sample.url");
+		anotherUrl.setShortUrl("TEST");
+		anotherUrl = repository.save(anotherUrl);
 		
-		// 여기부터
-		Url result = repository.findOneByRealUrl(sampleRealUrl1);
-		assertEquals(sampleShortUrl1, result.getShortUrl());
-		
-		assertEquals(result.getShortUrl(), repository.findOneByRealUrl(sampleRealUrl1).getShortUrl());	// 동일 url로 동일데이터 find
-		assertNotEquals(result.getShortUrl(), repository.findOneByRealUrl(sampleRealUrl2).getShortUrl());	// 다른 url로 다른 데이터 find
-		
+		Url result = repository.findOneByRealUrl(SAMPLE_REAL_URL);
+		assertEquals(result.getShortUrl(), repository.findOneByRealUrl(SAMPLE_REAL_URL).getShortUrl());	// 같은 url로 같은 데이터 find
+		assertNotEquals(result.getShortUrl(), repository.findOneByRealUrl("another.sample.url").getShortUrl());	// 다른 url로 다른 데이터 find
+
+		repository.delete(anotherUrl);
 	}
 	
 	@Test
@@ -61,12 +91,10 @@ public class UrlRepositoryTest {
 	
 	@Test
 	public void testFindByShortUrl() {	
-		String sampleRealUrl = "sample.real.url.findbyshort";
-		String sampleShortUrl = "IIJJKKLLMM";
-		repository.save(new Url(sampleRealUrl, sampleShortUrl));
+		repository.save(sampleUrl);
 		
-		Url result = repository.findOneByShortUrl(sampleShortUrl);
-		assertEquals(sampleRealUrl, result.getRealUrl());
+		Url result = repository.findOneByShortUrl(SAMPLE_SHORT_URL);
+		assertEquals(SAMPLE_REAL_URL, result.getRealUrl());
 	}
 	
 	@Test
@@ -76,13 +104,11 @@ public class UrlRepositoryTest {
 	
 	@Test
 	public void testFindAndCountByShortUrl() {
-		String sampleRealUrl = "sample.real.url.findandcount";
-		String sampleShortUrl = "nnooppqq";
-		repository.save(new Url(sampleRealUrl, sampleShortUrl));
+		repository.save(sampleUrl);
 		
-		Url result = repository.findAndCountByShortUrl(sampleShortUrl);
-		assertEquals(sampleRealUrl, result.getRealUrl());
+		Url result = repository.findAndCountByShortUrl(SAMPLE_SHORT_URL);
+		assertEquals(SAMPLE_REAL_URL, result.getRealUrl());
 		
-		assertEquals(result.getCallCnt() + 1, repository.findAndCountByShortUrl(sampleShortUrl).getCallCnt());	// 증가된 callCnt
+		assertEquals(result.getCallCnt() + 1, repository.findAndCountByShortUrl(SAMPLE_SHORT_URL).getCallCnt());	// 증가된 callCnt
 	}
 }

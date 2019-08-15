@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.repository.Query;
 
 import cf.digul.shortener.vo.Url;
 
-public interface UrlRepository extends MongoRepository<Url, Long>, UrlRepositoryCustom{
+public interface UrlRepository extends MongoRepository<Url, String>, UrlRepositoryCustom{
 	
 	public List<Url> findByRealUrl(String realUrl);
 	public List<Url> findByShortUrl(String shortUrl);

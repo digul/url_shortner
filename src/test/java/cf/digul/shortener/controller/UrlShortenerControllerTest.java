@@ -2,20 +2,20 @@ package cf.digul.shortener.controller;
 
 import org.springframework.http.MediaType;
 
+import static org.mockito.Mockito.*;
 import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+
 import static org.mockito.AdditionalMatchers.not;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.nio.charset.Charset;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.powermock.reflect.Whitebox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -44,17 +44,31 @@ public class UrlShortenerControllerTest {
             MediaType.APPLICATION_JSON.getSubtype(),
             Charset.forName("utf8"));
 
-	private final String sampleRealUrl = "test.real.url";
-	private final String sampleShortUrl = "aAbBcCdD";
-	private Url sampleUrl = new Url(sampleRealUrl, sampleShortUrl);
+
+	private static final String SAMPLE_REAL_URL = "sample.real.url.save";
+	private static final String SAMPLE_SHORT_URL = "RepoTest";
+	private static Url sampleUrl = new Url();
+	private static Url newUrl = new Url();
+	
+
+	@BeforeClass
+	public static void setTestData() {
+		sampleUrl.setRealUrl(SAMPLE_REAL_URL);
+		sampleUrl.setShortUrl(SAMPLE_SHORT_URL);
+		sampleUrl.setIsNew(false);
+		Whitebox.setInternalState(sampleUrl, "callCnt", 0);
+		Whitebox.setInternalState(sampleUrl, "id", "1234");
+
+		newUrl.setIsNew(true);
+		newUrl.setShortUrl("NewUrl");
+	}
 	
 	@Before
 	public void setMockBean() {
-		sampleUrl.setIsNew(false);
-		when(service.findUrl(eq(sampleShortUrl))).thenReturn(sampleUrl);	// 탐색성공
-		when(service.findUrl(not(eq(sampleShortUrl)))).thenReturn(null);	// 탐색실패
-		when(service.saveUrl(eq(sampleRealUrl))).thenReturn(sampleUrl);	// 이미 생성된 url을 저장시도
-		when(service.saveUrl(not(eq(sampleRealUrl)))).thenReturn(new Url("something.new.url","NewUrl"));	// 새로운 url저장
+		when(service.findUrl(eq(SAMPLE_SHORT_URL))).thenReturn(sampleUrl);	// 탐색성공
+		when(service.findUrl(not(eq(SAMPLE_SHORT_URL)))).thenReturn(null);	// 탐색실패
+		when(service.saveUrl(eq(SAMPLE_REAL_URL))).thenReturn(sampleUrl);	// 이미 생성된 url을 저장시도
+		when(service.saveUrl(not(eq(SAMPLE_REAL_URL)))).thenReturn(newUrl);	// 새로운 url저장
 	}
 	
 	@Test
@@ -66,7 +80,7 @@ public class UrlShortenerControllerTest {
 
 	@Test
 	public void testGetRealUrl() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/" + sampleShortUrl)
+		mvc.perform(MockMvcRequestBuilders.get("/" + SAMPLE_SHORT_URL)
 				.accept(contentType))
 			.andExpect(status().is3xxRedirection());	// 생성된 shorturl -> redirect
 	}
@@ -90,9 +104,9 @@ public class UrlShortenerControllerTest {
 	@Test
 	public void testGenerateShortUrlAlreadyGen() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.post("/")
-				.content(sampleRealUrl)
+				.content(SAMPLE_REAL_URL)
 				.contentType(contentType))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("shortUrl").value(sampleShortUrl));	// 이미 생성된 short url
+				.andExpect(jsonPath("shortUrl").value(SAMPLE_SHORT_URL));	// 이미 생성된 short url
 	}	
 }

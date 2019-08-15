@@ -37,14 +37,13 @@ public class Url {
 	private String createdIp;	//TODO 요청 ip 찾아내어 생성자 매핑
 	
 
-	public Url(String realUrl, String shortUrl) {
+	public Url(String realUrl) {
 		this.realUrl = realUrl;
-		this.shortUrl = shortUrl;
 		this.callCnt = 0;
 		this.isNew = true;
 	}
 	public Url() {
-		
+		this.isNew = true;
 	}
 	
 	
