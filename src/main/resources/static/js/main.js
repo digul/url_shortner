@@ -1,7 +1,3 @@
-var app = new Vue({
-	el:'#main',
-	data: {
-		shortUrl: 'aAbBcCdD',
-		realUrl: 'test.real.url'
-	}
-})
+import Vue from 'vue'
+import App from './app'
+import axios from 'axios'

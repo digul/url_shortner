@@ -37,6 +37,7 @@ public class RealUrlFilter implements Filter{
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		
 		if(!httpRequest.getMethod().equals(HttpMethod.POST.toString())) {
+			chain.doFilter(request, httpResponse);
 			return;	// POST 요청에 대해서만 처리
 		}
 
