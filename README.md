@@ -42,7 +42,7 @@ Shortening Service
 * CentOS 7.3 64bit
 * nginx 1.16 
 * mongodb 4.0
-* 야심차게 준비했는데 오늘 갑자기 서버가 죽어서 안뜸...ㅠㅠ 공짜서버에 너무많은것을 올린듯..
+* 야심차게 준비했는데 오늘 갑자기 서버가 죽어서 안뜸...ㅠㅠ 공짜서버에 너무많은것을 올린듯.. 터미널접속도 안됨.. 이건 NCP탓이다...
 
 ### LOCAL ENVIRONMENT
 * mvn clean package 로 war build 
