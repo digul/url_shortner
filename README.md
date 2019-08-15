@@ -36,10 +36,11 @@ Shortening Service
 * 서비스 환경에서 static resource는 nginx가 로딩
 
 ### ENVIRONMENT
-* [http://digul.cf/](http://digul.cf/)
-* NCP cloud 
+* [http://digul.cf/](http://digul.cf/) : 서버 memory 부족으로 실행되지 않을 수 있습니다.. 
+* NCP cloud
 * CentOS 7.3 64bit
 * nginx 1.16 
 * 단위테스트 실행 시 -Dunit-test=true 옵션 필요
+* 로컬환경 실행 시 (-Pdev / -Pdefault) embedded db로 실행
 
 
