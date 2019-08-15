@@ -16,8 +16,8 @@ Shortening Service
 ### SPEC
 * java 1.8
 * spring boot 2.1.4.RELEASE
-* mongodb 4.0
 * Vue.js 2.6
+* mongodb 
 
 
 ### GENERATING ALGORITHM
@@ -35,12 +35,18 @@ Shortening Service
 * 무중단배포 (두 개의 서비스를 띄워 nginx 로드밸런싱 설정)
 * 서비스 환경에서 static resource는 nginx가 로딩
 
-### ENVIRONMENT
-* [http://digul.cf/](http://digul.cf/) : 서버 memory 부족으로 실행되지 않을 수 있습니다.. 
+### SERVICE ENVIRONMENT
+* [http://digul.cf/](http://digul.cf/) : 서버 memory 부족으로 실행되지 않을 수 있습니다..
 * NCP cloud
 * CentOS 7.3 64bit
 * nginx 1.16 
+* mongodb 4.0
+
+### LOCAL ENVIRONMENT
+* mvn clean package 로 war build 
+* java -jar [패키징된 war] 로 실행
+* http://localhost:8080 
 * 단위테스트 실행 시 -Dunit-test=true 옵션 필요
-* 로컬환경 실행 시 (-Pdev / -Pdefault) embedded db로 실행
+* 로컬환경 실행 시 embedded db로 실행됩니다.
 
 
