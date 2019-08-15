@@ -10,8 +10,8 @@
 <body>
 	<h3>URL SHORTENER</h3>
 	<div id="main">
-		<axios></axios>
-		
+		<input type="hidden" id="requestURL" value="${pageContext.request.getRequestURL() }" />
+		<input type="hidden" id="requestURI" value="${pageContext.request.getRequestURI() }" />
 		<div class="textbox">
 			<label>REAL URL</label>
 			<input id="realUrl" type="text" v-model="url.realUrl"/>

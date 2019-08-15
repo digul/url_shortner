@@ -1,12 +1,18 @@
 var app = new Vue({
 	el:'#main',
 	data: {
-		host: 'http://digul.cf/',
 		url: {
 			shortUrl: ''
 		},
 		status: 'INPUT YOUR URL',
 		afterGen : false
+	},
+	computed: {
+		host: function(){
+			var requestURL = document.querySelector("#requestURL").getAttribute("value");
+			var requestURI = document.querySelector("#requestURI").getAttribute("value");
+			return requestURL.replace(requestURI, '/');
+		} 
 	},
 	methods: {
 		gen: function() {
