@@ -1,15 +1,11 @@
 package cf.digul.shortener.util;
 
 import java.math.BigInteger;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.fasterxml.jackson.databind.deser.Deserializers.Base;
 
 public class ShortUrlGenerator {
 	private static final Logger logger = LogManager.getLogger(ShortUrlGenerator.class);
@@ -31,7 +27,7 @@ public class ShortUrlGenerator {
 		try {
 			realStr = String.valueOf(Hex.decodeHex(str));	// 입력된 16진수를 아스키코드로 하는 문자열 
 		} catch (DecoderException e) {
-			e.printStackTrace();
+			logger.error(e.getLocalizedMessage());
 			return "error";
 		}	
 		logger.debug(String.format("## ShortUrlGenerator ## convert [ %s ] to [ %s ]", str, realStr));
@@ -43,7 +39,6 @@ public class ShortUrlGenerator {
 
 		do {
 			char charValue = CODEC.charAt(intValue % CODEC_BASE);
-			logger.debug(String.format("## ShortUrlGenerator ## converting... %d to %s", intValue % CODEC_BASE, charValue));
 			intValue /= CODEC_BASE;
 			sb.append(charValue);
 		} while(intValue > 0);			// base62 문자 매핑

@@ -79,7 +79,6 @@ public class Url {
 		try {
 			return new ObjectMapper().writeValueAsString(this);
 		} catch (JsonProcessingException e) {
-			e.printStackTrace();
 			return "{}";
 		}
 	}
