@@ -9,10 +9,12 @@
 </head>
 <body>
 	<h3>URL SHORTENER</h3>
-	<div id="home">
+	<div id="main">
+		<axios></axios>
+		
 		<div class="textbox">
 			<label>REAL URL</label>
-			<input id="realUrl" type="text" :value="url.realUrl"/>
+			<input id="realUrl" type="text" v-model="url.realUrl"/>
 		</div>
 		<div class="btn"><button @click="gen" >GEN</button></div>
 		<div class="result">
@@ -28,9 +30,11 @@
 		<div class="status">
 			<span v-text="status"/>
 		</div>
-		<input type="hidden" id="genedUrl" :value="host + url.shortUrl" />
+		<input type="hidden" v-show="afterGen" id="genedUrl" :value="host + url.shortUrl" />
 	</div>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js" ></script>
-	<script type="text/javascript" src="/js/home.js?ver=gg" ></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js" ></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script type="text/javascript" src="/js/common.js" ></script>
+	<script type="text/javascript" src="/js/main.js?ver=ss" ></script>
 </body>
 </html>

@@ -34,8 +34,9 @@ public class UrlShortenerService {
 			
 			Url savedUrl = urlRepository.save(new Url(realUrl));
 			savedUrl.setShortUrl(ShortUrlGenerator.encode(savedUrl.getId()));
-			
-			return urlRepository.save(savedUrl);
+			savedUrl = urlRepository.save(savedUrl);
+			savedUrl.setIsNew(true);
+			return savedUrl;
 			
 		} catch(Exception e) {
 			// mongodb는 transaction지원하지 않아서 직접 delete 호출함
