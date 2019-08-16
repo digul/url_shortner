@@ -9,6 +9,16 @@ html {
 }
 
 /* default : pc */
+div#outline {
+	position: relative;
+	width: 100%;
+}
+div#main {
+	width: 70%;
+	position: absolute;
+	left: 50%;
+	margin-left: -35%;
+}
 div.btn {
 	text-align: right;
 }
@@ -27,6 +37,13 @@ div.error.inner.code {
 
 /* mobile size */ 
 @media (max-width:425px) {
+	div#outline {
+		all: initial;
+	}
+	div#main {
+		all: initial;
+		width: 100%;
+	}
 	div.error.inner img {
 		width: 80%;
 		height: auto;
