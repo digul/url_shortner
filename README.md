@@ -26,7 +26,8 @@ Shortening Service
 * base62로 변환
 
 ### SERVICE STRATEGY
-* short url 생성을 위한 화면 제공 - 마크업 생략. 에러페이지에만 간단한 media query 적용
+* short url 생성을 위한 화면 제공 - 에러페이지에 간단한 media query 적용 
+* vue 마크업UI컴포넌트 추가(제출기한 이후) 
 * 유효한 url string만 생성 가능
 * 생성 성공 시 201 code로 short url return
 * 중복 생성 시도 시 200 code로 기 생성된 short url return
