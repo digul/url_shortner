@@ -32,17 +32,16 @@ Shortening Service
 * 중복 생성 시도 시 200 code로 기 생성된 short url return
 * 생성된 short url 클립보드에 복사 기능 제공
 * http://hostname/SHORTURL : 입력된 shorturl에 해당하는 화면으로 redirect (없는경우 404 return)
-* 2시간단위로 변경사항 확인하여 war packging 후 cloud에 빌드/배포/통합테스트 자동수행([jenkins](http://jenkins.digul.cf), bash script) => 클라우드서버 메모리 부족 문제로 포기..
-* 무중단배포 (두 개의 서비스를 띄워 nginx 로드밸런싱 설정) -> 메모리부족으로 포기..
+* 2시간단위로 변경사항 확인하여 war packging 후 cloud에 빌드/배포/통합테스트 자동수행([jenkins](http://jenkins.digul.cf), bash script) => 서버 성능 부족 문제로 포기..
+* 무중단배포 (두 개의 서비스를 띄워 nginx 로드밸런싱 설정) -> 서버성능부족으로 포기
 * 서비스 환경에서 static resource는 nginx가 로딩
 
 ### SERVICE ENVIRONMENT
-* [http://digul.cf/](http://digul.cf/) : 서버 memory 부족으로 실행되지 않을 수 있습니다..
+* [http://digul.cf/](http://digul.cf/) : 서버성능부족으로 실행되지 않을 수 있습니다..
 * NCP cloud
 * CentOS 7.3 64bit
 * nginx 1.16 
 * mongodb 4.0
-* 야심차게 준비했는데 오늘 갑자기 서버가 죽어서 안뜸...ㅠㅠ 공짜서버에 너무많은것을 올린듯.. 터미널접속도 안됨.. 이건 NCP탓이다...
 
 ### LOCAL ENVIRONMENT
 * mvn clean package 로 war build 
