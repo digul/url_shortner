@@ -1,4 +1,20 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 100%;
+}
+
 /* default : pc */
+div.btn {
+	text-align: right;
+}
+div.status {
+	padding: 10px;
+}
 div.error.inner {
 	margin: 10px;
 	text-align: center;

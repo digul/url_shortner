@@ -42,8 +42,7 @@ var app = new Vue({
 			});
 		},
 		copy: function() {
-			let genedUrlEl = document.querySelector('#shortUrl');
-			genedUrlEl.select();
+			this.$refs.shortUrl.$refs.input.select();
 
 			try {
 				var isSuccess = document.execCommand('copy');
