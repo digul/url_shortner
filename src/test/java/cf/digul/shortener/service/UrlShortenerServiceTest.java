@@ -8,7 +8,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.powermock.reflect.Whitebox;
-import org.springframework.test.annotation.IfProfileValue;
 
 import cf.digul.shortener.vo.Url;
 import cf.digul.shortener.repository.UrlRepository;
@@ -21,7 +20,6 @@ import static org.mockito.AdditionalMatchers.*;
 import org.hamcrest.Matchers;
 
 @RunWith(MockitoJUnitRunner.class)
-@IfProfileValue(name = "unit-test", value = "true")
 public class UrlShortenerServiceTest {
 	
 	@InjectMocks

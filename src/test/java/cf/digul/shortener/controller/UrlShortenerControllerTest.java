@@ -19,7 +19,6 @@ import org.powermock.reflect.Whitebox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.annotation.IfProfileValue;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -30,7 +29,6 @@ import cf.digul.shortener.service.UrlShortenerService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(UrlShortenerController.class)
-@IfProfileValue(name = "unit-test", value = "true")
 public class UrlShortenerControllerTest {
 	
 	@Autowired

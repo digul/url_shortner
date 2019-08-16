@@ -12,6 +12,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.IfProfileValue;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cf.digul.shortener.UrlShortenerApplication;
@@ -19,6 +20,7 @@ import cf.digul.shortener.repository.UrlRepository;
 import cf.digul.shortener.vo.Url;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@IfProfileValue(name = "integrity-test", value = "true")
 @SpringBootTest(classes = UrlShortenerApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UrlShortenerApplicationTests {
 
