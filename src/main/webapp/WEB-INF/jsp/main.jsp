@@ -14,9 +14,9 @@
 		<input type="hidden" id="requestURI" value="${pageContext.request.getRequestURI() }" />
 		<ui-tabs class="">
 			<ui-tab fullwidth title="URL SHORTENER"  >
-				<ui-textbox label="REAL URL" placeholder="http://" v-model="url.realUrl" ></ui-textbox>
+				<ui-textbox label="REAL URL" placeholder="http://" v-model="url.realUrl"  @keydown.enter="gen" ></ui-textbox>
 				<div class="btn">
-					<ui-button color="green" :size="20" @click="gen">GEN</ui-button>
+					<ui-button color="green" :size="20" @click="gen" >GEN</ui-button>
 				</div>
 				
 				<ui-textbox ref="shortUrl"  readonly label="SHORT URL"  :value="host + url.shortUrl" ></ui-textbox>
