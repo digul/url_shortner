@@ -21,7 +21,7 @@ Shortening Service
 
 
 ### GENERATING ALGORITHM
-* mongodb에 저장된 object id (hex) 를 문자열로 변환
+* mongodb에 저장된 object id (hex) 를 아스키코드로 하는 문자열로 변환
 * 변환된 문자열 -> byte array -> int형으로 변환
 * base62로 변환
 
