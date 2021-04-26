@@ -19,7 +19,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
-		<common-io.version>2.5</common-io.version>
+		<common-io.version>2.7</common-io.version>
 		<powermock.version>2.0.0</powermock.version>
 	</properties>
 
